@@ -11,9 +11,10 @@ import { toast } from "sonner";
 export default function StatusProgressPage() {
   const [searchParams] = useSearchParams();
   const docNo = searchParams.get('docNo');
+  const token = searchParams.get('token');
 
-  const { data, error, isLoading } = useGetStatusTrackerQuery(docNo, {
-    skip: !docNo,
+  const { data, error, isLoading } = useGetStatusTrackerQuery(token, {
+    skip: !docNo && !token,
   });
 
   if (isLoading)
