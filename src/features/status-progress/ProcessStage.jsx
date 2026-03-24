@@ -3,24 +3,28 @@ import { iconMap, statusColor } from '../ui/icons'
 
 export default function ProcessStage({ stage }) {
     const Icon = iconMap[stage.stage?.toUpperCase()] 
-    const processColor = statusColor[stage.status?.toLowerCase()] || "text-gray-400";
+    const processColor = statusColor[stage.status] || "text-gray-400";
 
     const timestamp = stage.timestamp
         ? new Date(stage.timestamp).toLocaleString("en-GB", {
-                day: "2-digit",
-                month: "short",
-                hour: "2-digit",
-                minute: "2-digit",
-            })
+            day: "2-digit",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+        })
         : "Pending";
+
+    const statusText = stage.status || "Pending";
 
     return (
         <div className='flex flex-col items-center gap-y-1'>
-            {/* Stage Name */}
+      
             <span className='mt-2 text-xs font-medium'>{stage.stage}</span>
-            {/* Stage Icon*/}
-            <Icon size={20} className={processColor} />
-            {/* Timestamp */}
+
+            {Icon && <Icon size={20} className={processColor} />}
+        
+            <span className={`text-xs font-medium ${processColor}`}>{statusText}</span>
+          
             <section className="flex flex-row gap-x-1 text-xs text-gray-500">
                 {timestamp !== "Pending" ? (
                     <span>{timestamp}</span>

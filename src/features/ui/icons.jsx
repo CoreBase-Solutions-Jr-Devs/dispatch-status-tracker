@@ -1,15 +1,15 @@
-import { MapPin, Package, ShieldCheck, Truck } from "lucide-react"
+import { MapPinHouse, Package, ShieldCheck, Truck } from "lucide-react"
 
 
 export const iconMap = {
     STORE: Package,
     VERIFICATION: ShieldCheck,
     DISPATCH: Truck,
-    DELIVERED: MapPin,
+    DELIVERY: MapPinHouse,
 };
 
 export const statusColor = {
-    Completed: 'text-green-600',
-    Active: 'text-red-400',
-    Pending: 'text-black',
+    Completed: 'text-primary',
+    Active: 'text-green-600',
+    Pending: 'text-destructive',
 }
