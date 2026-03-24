@@ -10,12 +10,18 @@ import { toast } from "sonner";
 
 export default function StatusProgressPage() {
   const [searchParams] = useSearchParams();
-  const docNo = searchParams.get('docNo');
-  const token = searchParams.get('token');
+
+  const token = searchParams.get("token");
+
+  console.log("Token:", token);
 
   const { data, error, isLoading } = useGetStatusTrackerQuery(token, {
-    skip: !docNo && !token,
+    skip: !token,
   });
+  
+const tracker = data; 
+
+console.log("Tracker in StatusProgressPage:", tracker); 
 
   if (isLoading)
     return (
@@ -34,33 +40,25 @@ export default function StatusProgressPage() {
     );
   }
 
-  if (!docNo) {
-    return (
-      <div className="text-center text-gray-500 mt-10">
-        No document number provided.
-      </div>
-    );
-  }
-
   if (!tracker && !isLoading && !error) {
     return (
       <div className="text-center text-gray-500 mt-10">
-        No tracking data found for document number <b>{docNo}</b>.
+        No tracking data found for document number .
       </div>
     );
   }
 
-  const tracker = data?.value;
+
 
   return (
-    <div className="max-w-md sm:max-w-sm mx-auto py-4 space-y-6">
+    <div className="max-w-md sm:max-w-sm mx-auto py-2 space-y-4">
       <StatusTimeline stages={tracker?.stages || []} />
       <StatusDetails tracker={tracker} />
       <StatusMessage
         message={tracker?.message}
         currentStage={tracker?.currentStage}
       />
-      <StatusActions />
+      <StatusActions   driver={tracker?.driver.name}/>
     </div>
   );
 }
