@@ -4,8 +4,9 @@ export const statusProgressApi = apiClient.injectEndpoints({
   endpoints: (builder) => ({
     getStatusTracker: builder.query({
       query: (token) => ({
-        url: `/api/v2/status-tracker/${encodeURIComponent(token)}`,
+        url: `/api/v2/status-tracker`,
         method: "GET",
+        params: { token }, 
       }),
       providesTags: ["status_tracker"],
     }),
