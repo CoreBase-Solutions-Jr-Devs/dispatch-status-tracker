@@ -15,7 +15,7 @@ function App() {
 
         <main className="pt-2 px-2">
           <Routes>
-            <Route path="/" element={<StatusRoute />} />
+            <Route path="/status-tracker" element={<StatusRoute />} />
           </Routes>
         </main>
 
