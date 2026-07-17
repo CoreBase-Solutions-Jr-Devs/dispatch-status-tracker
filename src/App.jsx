@@ -1,7 +1,7 @@
 // import { useState } from 'react'
 // import reactLogo from './assets/react.svg'
 // import viteLogo from '/vite.svg'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 import StatusRoute from "./routes/StatusRoute";
 
@@ -15,6 +15,7 @@ function App() {
 
         <main className="pt-2 px-2">
           <Routes>
+            <Route path="/" element={<Navigate to="/status-tracker" replace />} />
             <Route path="/status-tracker" element={<StatusRoute />} />
           </Routes>
         </main>
