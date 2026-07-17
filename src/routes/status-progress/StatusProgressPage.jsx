@@ -35,7 +35,7 @@ console.log("Tracker in StatusProgressPage:", tracker);
     toast.error("Unable to fetch tracking details.");
     return (
       <div className="text-center text-red-600 mt-10">
-        Failed to load tracking information.
+        {error?.data?.message || "Failed to load tracking information."}
       </div>
     );
   }
@@ -58,7 +58,7 @@ console.log("Tracker in StatusProgressPage:", tracker);
         message={tracker?.message}
         currentStage={tracker?.currentStage}
       />
-      <StatusActions   driver={tracker?.driver.name}/>
+      <StatusActions driver={tracker?.driver.name} />
     </div>
   );
 }
