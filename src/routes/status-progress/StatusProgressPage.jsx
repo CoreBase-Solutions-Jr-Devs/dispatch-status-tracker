@@ -15,9 +15,7 @@ export default function StatusProgressPage() {
 
   console.log("Token:", token);
 
-  const { data, error, isLoading } = useGetStatusTrackerQuery(token, {
-    skip: !token,
-  });
+  const { data, error, isLoading } = useGetStatusTrackerQuery(token);
   
 const tracker = data; 
 
@@ -31,34 +29,137 @@ console.log("Tracker in StatusProgressPage:", tracker);
       </div>
     );
 
-  if (error) {
-    toast.error("Unable to fetch tracking details.");
-    return (
-      <div className="text-center text-red-600 mt-10">
-        Failed to load tracking information.
-      </div>
-    );
+// if (error) {
+//   console.log("RTK Query Error:", error);
+
+//   const apiMessage =
+//     error?.data?.message || "Unable to fetch tracking details.";
+
+//   toast.error(apiMessage);
+
+//   return (
+//     <div className="text-center text-red-600 mt-10">
+//       {apiMessage}
+//     </div>
+//   );
+// }
+
+//   if (!tracker && !isLoading && !error) {
+//     return (
+//       <div className="text-center text-gray-500 mt-10">
+//         No tracking data found for document number .
+//       </div>
+//     );
+//   }
+
+
+  let apiMessage =
+    error?.data?.message || "Something went wrong. Please try again.";
+
+    if (error) {
+  console.log("RTK Query Error:", error);
+  
+  switch (error.status) {
+    case 400:
+      toast.error(apiMessage);
+      break;
+
+    case 401:
+      toast.error(apiMessage);
+      // Optional: navigate("/login");
+      break;
+
+    case 403:
+      toast.error(apiMessage);
+      break;
+
+    case 404:
+      toast.error(apiMessage);
+      break;
+
+    case 500:
+      toast.error(apiMessage);
+      break;
+
+    case "FETCH_ERROR":
+      apiMessage = "Please check your internet connection.";
+      toast.error(apiMessage);
+      break;
+
+    case "PARSING_ERROR":
+      apiMessage = "The server returned an invalid response.";
+      toast.error(apiMessage);
+      break;
+
+    case "TIMEOUT_ERROR":
+      apiMessage = "The request timed out. Please try again.";
+      toast.error(apiMessage);
+      break;
+
+    default:
+      toast.error(apiMessage);
+      break;
   }
 
-  if (!tracker && !isLoading && !error) {
-    return (
-      <div className="text-center text-gray-500 mt-10">
-        No tracking data found for document number .
+}
+
+return (
+ <div className="max-w-md mx-auto py-2">
+  <div className="flex-1">
+    {isLoading ? (
+      <div className="flex justify-center items-center h-screen">
+        <Loader2 className="w-6 h-6 animate-spin text-primary" />
+        <span className="ml-2 text-gray-600">
+          Loading tracking details...
+        </span>
       </div>
-    );
-  }
+    ) : error ? (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <img
+          src="src/assets/image/No tracking Found.png" 
+          alt="Tracking Error"
+          className="w-56 h-auto mb-6"
+        />
 
+        <h3 className=" font-semibold text-gray-900 mb-2">
+          Tracking Unavailable
+        </h3>
 
+        <p className="text-destructive text-sm">
+          {apiMessage}
+        </p>
+      </div>
+    ) : !tracker ? (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <img
+          src="src/assets/image/No tracking Found.png" 
+          alt="No Tracking Data"
+          className="w-56 h-auto mb-6"
+        />
 
-  return (
-    <div className="max-w-md sm:max-w-sm mx-auto py-2 space-y-4">
-      <StatusTimeline stages={tracker?.stages || []} />
-      <StatusDetails tracker={tracker} />
-      <StatusMessage
-        message={tracker?.message}
-        currentStage={tracker?.currentStage}
-      />
-      <StatusActions   driver={tracker?.driver.name}/>
-    </div>
-  );
+        <h3 className=" font-semibold text-gray-900 mb-2">
+          No Tracking Information
+        </h3>
+        <p className="text-destructive text-sm"> 
+  We couldn't find any tracking information for this shipment.
+        </p>
+      </div>
+    ) : (
+      <>
+        <StatusTimeline stages={tracker.stages} />
+        <StatusDetails tracker={tracker} />
+        <StatusMessage
+          message={tracker.message}
+          currentStage={tracker.currentStage}
+        />
+      </>
+    )}
+  </div>
+
+  <StatusActions
+    showDriver={!error && tracker?.driver}
+    driver={tracker?.driver?.name}
+  />
+</div>
+);
 }

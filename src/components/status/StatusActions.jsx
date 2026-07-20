@@ -1,15 +1,23 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
-export default function StatusActions() {
+export default function StatusActions({
+  showDriver = false,
+  // driver,
+}) {
   return (
     <>
       <div className="flex flex-col space-y-4">
-        <Button variant="default" size="sm">
-          Contact Driver
-        </Button>
-        <Button variant="default" size="sm">
+        {showDriver && (
+          <Button variant="default" size="sm">
+            Contact Driver
+          </Button>
+        )}
+     
+        <Button asChild variant="default" size="sm" className="w-full">
+        <a href="tel:+254725027002">
           Contact Customer Care
-        </Button>
+        </a>
+      </Button>
       </div>
     </>
   );
