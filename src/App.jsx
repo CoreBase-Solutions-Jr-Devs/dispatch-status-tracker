@@ -8,18 +8,18 @@ import StatusRoute from "./routes/StatusRoute";
 function App() {
   return (
     <Router>
-      <div className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg mx-auto bg-white p-4 rounded-xl shadow-md">
+      <div className="w-full max-w-md mx-auto bg-white p-4 rounded-xl shadow-md min-h-[500px] flex flex-col">
         <header className="p-2 bg-white shadow-lg rounded-2xl mx-2">
           <h3 className=" font-medium">Tracking Details</h3>
         </header>
 
-        <main className="pt-2 px-2">
+        <main className="flex-1 pt-2 px-2">
           <Routes>
             <Route path="/status-tracker" element={<StatusRoute />} />
           </Routes>
         </main>
 
-        <footer className="p-2 text-center text-xs text-muted-foreground">
+        <footer className="mt-auto p-2 text-center text-xs text-muted-foreground">
           &copy; Dispatch Tracking {new Date().getFullYear()} CoreBase Solutions
           Limited
         </footer>
